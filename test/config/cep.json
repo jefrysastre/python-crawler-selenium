@@ -1,0 +1,20 @@
+{
+    "_type" : "root",
+    "origin": "http://www.mapacep.com.br/default.asp",
+    "children":[{
+        "_type": "repeater",
+        "selector" : "/html/body/header/div[1]/div/div[2]/div/form/div/input",
+        "values" : "/Users/jefry.sastre/CloudStation/Private/Drive/PycharmProjects/crawler/test/config/cep.values.pickle",
+        "children":[{
+            "_type" : "form",
+            "fields": {},
+            "submit": "/html/body/header/div[1]/div/div[2]/div/form/div/span/input",
+            "children":[{
+                "_type":"data",
+                "fields" :{
+                    "cep": "/html/body/main/div[3]/div/div/p[1]"
+                }
+            }]
+        }]
+    }]
+}

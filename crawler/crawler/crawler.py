@@ -14,4 +14,4 @@ class Crawler:
 
     def run(self):
         driver = webdriver.Chrome()
-        self.root.execute(driver)
+        return self.root.execute(driver)
