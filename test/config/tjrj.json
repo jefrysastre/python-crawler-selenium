@@ -1,0 +1,36 @@
+{
+    "_type" : "root",
+    "origin": "http://www4.tjrj.jus.br/ejuris/ConsultarJurisprudencia.aspx",
+    "children":[{
+        "_type": "repeater",
+        "selector" : "//*[@id=\"ContentPlaceHolder1_txtTextoPesq\"]",
+        "values": ["apelação", "\"agravo retido\"", "\"remessa necessária\" ou \"reexame necessário\""],
+        "children":[{
+            "_type" : "form",
+            "fields" :{
+                "//*[@id=\"ContentPlaceHolder1_cmbAnoInicio\"]/option[@value=\"2017\"]": "*",
+                "//*[@id=\"ContentPlaceHolder1_cmbAnoFim\"]/option[@value=\"2017\"]" : "*",
+                "//*[@id=\"ContentPlaceHolder1_chkDecMon\"]" : "*"
+            },
+            "submit": "//*[@id=\"ContentPlaceHolder1_btnPesquisar\"]",
+            "children":[{
+                "_type": "repeater",
+                "selector" : "//*[@id=\"seletorPaginasTopo\"]/option[{0}]",
+                "start": 1,
+                "end": "//*[@id=\"placeholder\"]/span/table/tbody/tr[4]/td",
+                "end_regex": ".*?(\\d+)",
+                "sleep_seconds" : 20,
+                "children":[{
+                    "_type": "link",
+                    "link" : "//*[@id=\"placeholder\"]/span/table/tbody/tr[6]/td/table/tbody/tr[4]/td/b/a",
+                    "children":[{
+                        "_type":"data",
+                        "fields" :{
+                            "classe": "//*[@id=\"conteudo\"]/span/table[3]/tbody/tr[1]/td[2]"
+                        }
+                    }]
+                }]
+            }]
+        }]
+    }]
+}
