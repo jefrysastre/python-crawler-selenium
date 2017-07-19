@@ -1,5 +1,6 @@
 
 from base_node import BaseNode
+from config import Config
 
 
 class Root(BaseNode):
@@ -10,5 +11,8 @@ class Root(BaseNode):
     def execute(self, driver):
         driver.get(self.origin)
 
+        result = Config()
+        result.children = []
         for child in self.children:
-            child.execute(driver)
+            result.children.append(child.execute(driver))
+        return result

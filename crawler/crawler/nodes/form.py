@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from base_node import BaseNode
+from config import Config
 
 
 class Form(BaseNode):
@@ -26,5 +27,9 @@ class Form(BaseNode):
         elem = driver.find_element_by_xpath(self.submit)
         elem.click()
 
+        result = Config()
+        result.values = self.fields.values()
+        result.children = []
         for child in self.children:
-            child.execute(driver)
+            result.children.append(child.execute(driver))
+        return result

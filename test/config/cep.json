@@ -4,7 +4,7 @@
     "children":[{
         "_type": "repeater",
         "selector" : "/html/body/header/div[1]/div/div[2]/div/form/div/input",
-        "values" : "/home/dslab/PycharmProjects/crawler/test/data/cep.values.pickle",
+        "values" : "/Users/jefry.sastre/CloudStation/Private/Drive/PycharmProjects/crawler/test/config/cep.values.pickle",
         "children":[{
             "_type" : "form",
             "fields": {},

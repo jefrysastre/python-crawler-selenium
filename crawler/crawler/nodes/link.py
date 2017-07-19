@@ -3,6 +3,7 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
 from base_node import BaseNode
+from config import Config
 
 
 class Link(BaseNode):
@@ -17,9 +18,14 @@ class Link(BaseNode):
         WebDriverWait(driver, 60).until(element_present)
         links = [link.get_attribute("href") for link in driver.find_elements_by_xpath(self.link)]
 
+        result = Config()
+        result.data = {}
         for link in links:
             driver.get(link)
+            result.data[link] = []
             for child in self.children:
-                child.execute(driver)
+                result.data[link].append(child.execute(driver))
         # go back to the original driver url
         driver.get(_current_url)
+
+        return result

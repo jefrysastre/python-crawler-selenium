@@ -12,7 +12,7 @@ config = Config.load(_path+"/config/cep.json")
 
 crawler = Crawler(config)
 
-crawler.run()
+data = crawler.run()
 
 input("Press Enter to continue...")
 

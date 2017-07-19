@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 import time
 
 from base_node import BaseNode
+from config import Config
 
 
 class Repeater(BaseNode):
@@ -41,6 +42,8 @@ class Repeater(BaseNode):
             else:
                 raise Exception("Error: Regex did not match anything.")
 
+        result = Config()
+        result.data = {}
         for value in self.values:
 
             if "{0}" in self.selector:
@@ -52,5 +55,7 @@ class Repeater(BaseNode):
                 WebDriverWait(driver, 60).until(element_present)
                 driver.find_element_by_xpath(self.selector).send_keys(value)
 
+            result.data[str(value)] = []
             for child in self.children:
-                child.execute(driver)
+                result.data[str(value)].append(child.execute(driver))
+        return result
