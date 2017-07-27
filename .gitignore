@@ -102,5 +102,8 @@ out
 # Pycharm project files
 .idea/
 
+# Eclipse project files
+.settings/
+
 # Selenium log file
 geckodriver.log

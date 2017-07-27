@@ -30,10 +30,13 @@ class Repeater(BaseNode):
             pass
 
     def execute(self, driver):
+        time.sleep(self.sleep_seconds)
+        
+        _current_url = driver.current_url
+        
         if self.start and self.end and self.end_regex and type(self.end) in [str, unicode]:
             import re
             element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(self.end)))
-            time.sleep(self.sleep_seconds)
             WebDriverWait(driver, 60).until(element_present)
             elem = driver.find_element_by_xpath(self.end)
             exps = re.findall(self.end_regex, elem.text)
@@ -55,7 +58,10 @@ class Repeater(BaseNode):
                 WebDriverWait(driver, 60).until(element_present)
                 driver.find_element_by_xpath(self.selector).send_keys(value)
 
-            result.data[str(value)] = []
+            result.data[unicode(value)] = []
             for child in self.children:
-                result.data[str(value)].append(child.execute(driver))
+                result.data[unicode(value)].append(child.execute(driver))
+            
+            driver.get(_current_url)
+        
         return result

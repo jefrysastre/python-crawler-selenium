@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from copy import deepcopy
 
 from base_node import BaseNode
 from config import Config
@@ -24,7 +25,8 @@ class Link(BaseNode):
             driver.get(link)
             result.data[link] = []
             for child in self.children:
-                result.data[link].append(child.execute(driver))
+                data = child.execute(driver)
+                result.data[link].append(deepcopy(data))
         # go back to the original driver url
         driver.get(_current_url)
 
