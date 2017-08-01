@@ -4,7 +4,7 @@
     "children":[{
         "_type": "repeater",
         "selector" : "//*[@id=\"ContentPlaceHolder1_txtTextoPesq\"]",
-        "values": ["apelação", "\"remessa necessária\" ou \"reexame necessário\""],
+        "values": ["apelação", "\"agravo retido\"", "\"remessa necessária\" ou \"reexame necessário\""],
         "children":[{
             "_type" : "form",
             "fields" :{
@@ -18,7 +18,8 @@
                 "_type": "repeater",
                 "selector" : "//*[@id=\"seletorPaginasTopo\"]/option[{0}]",
                 "start": 1,
-                "end": 2,
+                "end": "//*[@id=\"placeholder\"]/span/table/tbody/tr[4]/td",
+                "end_regex": ".*?(\\d+)",
                 "sleep_seconds" : 20,
                 "children": [{
                     "_type": "link",
@@ -30,7 +31,6 @@
                             "num_processo": "//*[@id=\"conteudo\"]/span/table[1]/tbody/tr[4]/td/h2",
                             "integras_info": "//*[@id=\"conteudo\"]/span/table[4]/tbody/tr/td",
                             "integras_links": "//*[@id=\"conteudo\"]/span/table[4]/tbody/tr/td/a",
-                            "datas_integras": "//*[@id=\"conteudo\"]/span/table[4]/tbody/tr/td/a",
                             "orgao_julgador": "//*[@id=\"conteudo\"]/span/table[3]/tbody/tr[5]/td[2]",
                             "relator": "//*[@id=\"conteudo\"]/span/table[3]/tbody/tr[6]/td[2]",
                             "polo_ativo": "//*[@id=\"conteudo\"]/span/table[3]/tbody/tr[7]/td[2]",

@@ -12,7 +12,9 @@ class Config:
 
 
     def dump(self, path = None):
-        str_data = jsonpickle.encode(self, unpicklable=False)
+        jsonpickle.set_encoder_options('json', ensure_ascii=False)
+        str_data = jsonpickle.encode(self, unpicklable=False).encode('utf-8')
+        
         if(path == None):
             return str_data
         else:

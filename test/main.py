@@ -14,4 +14,4 @@ crawler = Crawler(config)
 
 data = crawler.run()
 
-data.dump("output.json")
+data.dump("tjrj_output.json")
