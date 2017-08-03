@@ -26,7 +26,9 @@ class Form(BaseNode):
                 elem.click()
             else:
                 elem.send_keys(value)
-
+        
+        elem = None
+        
         for i in xrange(len(self.submit)):
             try:
                 elem = driver.find_element_by_xpath(self.submit[i])
@@ -34,11 +36,14 @@ class Form(BaseNode):
             except NoSuchElementException:
                 pass
         
-        elem.click()
-
         result = Config()
         result.values = self.fields.values()
         result.children = []
-        for child in self.children:
-            result.children.append(child.execute(driver))
+        
+        if elem != None:
+            elem.click()
+            
+            for child in self.children:
+                result.children.append(child.execute(driver))
+        
         return result

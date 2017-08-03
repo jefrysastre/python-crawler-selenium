@@ -4,6 +4,7 @@ from selenium.webdriver.common.by import By
 
 from base_node import BaseNode
 from config import Config
+from selenium.common.exceptions import TimeoutException
 
 
 class Data(BaseNode):
@@ -14,9 +15,14 @@ class Data(BaseNode):
 
     def execute(self, driver):
         for key, value in self.fields.items():
-            element_present = EC.presence_of_element_located((By.XPATH, value))
-            WebDriverWait(driver, 60).until(element_present)
             self.data[key] = []
+            
+            try:
+                element_present = EC.presence_of_element_located((By.XPATH, value))
+                WebDriverWait(driver, 10).until(element_present)
+            except TimeoutException:
+                continue
+            
             for element in driver.find_elements_by_xpath(value):
                 if element.tag_name == "a":
                     text = element.text
