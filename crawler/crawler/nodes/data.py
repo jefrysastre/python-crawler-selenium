@@ -43,7 +43,10 @@ class Data(BaseNode):
                 self.name: self.data
             }
         else:
-            for child in self.children:
-                for data in child.execute(driver):
+            _count_current_index = len(self.children)
+            while self._current_index < _count_current_index:
+                for data in self.children[self._current_index].execute(driver):
                     data[self.name] = self.data
                     yield data
+                self._current_index += 1
+            self._current_index = 0

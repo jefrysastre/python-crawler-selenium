@@ -38,10 +38,13 @@ class Form(BaseNode):
             except NoSuchElementException:
                 pass
         
-        if elem != None:
+        if elem is not None:
             elem.click()
 
-            for child in self.children:
-                for data in child.execute(driver):
+            _count_current_index = len(self.children)
+            while self._current_index < _count_current_index:
+                for data in self.children[self._current_index].execute(driver):
                     data[self.name] = self.fields
                     yield data
+                self._current_index += 1
+            self._current_index = 0

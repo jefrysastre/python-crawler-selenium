@@ -25,6 +25,7 @@
                 "sleep_seconds" : 20,
                 "children": [{
                     "_type": "link",
+                    "sleep_seconds" : 3,
                     "link": "//*[@id=\"placeholder\"]/span/table/tbody/tr[6]/td/table/tbody/tr[4]/td/b/a",
                     "children": [{
                         "_type": "data",

@@ -23,7 +23,16 @@ crawler = Crawler(config)
 #             yield "number = {0}, count = {1}".format(i,count)
 #     for n in range(0,99):
 #         yield  "number = {0}, count = {1}".format(n,count)
-
-for data in crawler.run():
+state = None
+for index, data in enumerate(crawler.run()):
+    if index == 11:
+        state = crawler.get_state()
+        break
     print data
 
+print("------------------------------------------------------------------------")
+crawler2 = Crawler(config)
+crawler2.set_state(state)
+
+for index, data in enumerate(crawler.run()):
+    print data

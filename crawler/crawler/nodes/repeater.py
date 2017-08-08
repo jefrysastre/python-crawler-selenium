@@ -8,15 +8,16 @@ from config import Config
 
 
 class Repeater(BaseNode):
-    def __init__(self, selector, values = None, start = None, end=None, end_regex=None, sleep_seconds = 0,  **kwargs):
+    def __init__(self, selector, values = None, start = None, end=None, end_regex=None,  **kwargs):
         if 'name' not in kwargs:
             kwargs['name'] = "repeater_value"
         super(Repeater, self).__init__(**kwargs)
         self.selector = selector
-        self.sleep_seconds = sleep_seconds
         self.start = start
         self.end = end
         self.end_regex = end_regex
+        self._current_value = 0
+
 
         if type(values) in [str, unicode]:
             import cPickle as pickle
@@ -47,20 +48,37 @@ class Repeater(BaseNode):
             else:
                 raise Exception("Error: Regex did not match anything.")
 
-        for value in self.values:
+        _count_current_value = len(self.values)
+        while self._current_value < _count_current_value:
 
             if "{0}" in self.selector:
-                element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(value)))
+                element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(self.values[self._current_value])))
                 WebDriverWait(driver, 60).until(element_present)
-                driver.find_element_by_xpath(self.selector.format(value)).click()
+                driver.find_element_by_xpath(self.selector.format(self.values[self._current_value])).click()
             else:
                 element_present = EC.presence_of_element_located((By.XPATH, self.selector))
                 WebDriverWait(driver, 60).until(element_present)
-                driver.find_element_by_xpath(self.selector).send_keys(value)
+                driver.find_element_by_xpath(self.selector).send_keys(self.values[self._current_value])
 
-            for child in self.children:
-                for data in child.execute(driver):
-                    data[self.name] = unicode(value)
+            _count_current_index = len(self.children)
+            while self._current_index < _count_current_index:
+                for data in self.children[self._current_index].execute(driver):
+                    data[self.name] = unicode(self.values[self._current_value])
                     yield data
+                self._current_index += 1
 
+            self._current_index = 0
+            self._current_value += 1
             driver.get(_current_url)
+
+        self._current_index = 0
+        self._current_value = 0
+
+    def get_state(self):
+        result = super(Repeater, self).get_state()
+        result["value"] = self._current_value
+        return result
+
+    def set_state(self, state):
+        self._current_value = state["value"]
+        super(Repeater, self).set_state(state)
