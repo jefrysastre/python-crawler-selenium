@@ -9,6 +9,8 @@ from config import Config
 
 class Link(BaseNode):
     def __init__(self, link, **kwargs):
+        if 'name' not in kwargs:
+            kwargs['name'] = "link_value"
         super(Link, self).__init__(**kwargs)
         self.link = link
 
@@ -19,15 +21,11 @@ class Link(BaseNode):
         WebDriverWait(driver, 60).until(element_present)
         links = [link.get_attribute("href") for link in driver.find_elements_by_xpath(self.link)]
 
-        result = Config()
-        result.data = {}
         for link in links:
             driver.get(link)
-            result.data[link] = []
             for child in self.children:
-                data = child.execute(driver)
-                result.data[link].append(deepcopy(data))
+                for data in child.execute(driver):
+                    data[self.name] = link
+                    yield data
         # go back to the original driver url
         driver.get(_current_url)
-
-        return result

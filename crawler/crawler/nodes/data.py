@@ -9,6 +9,8 @@ from selenium.common.exceptions import TimeoutException
 
 class Data(BaseNode):
     def __init__(self, fields, **kwargs):
+        if 'name' not in kwargs:
+            kwargs['name'] = "data_value"
         super(Data, self).__init__(**kwargs)
         self.fields = fields.__dict__
         self.data = {}
@@ -35,10 +37,13 @@ class Data(BaseNode):
                     self.data[key].append(tds)
                 else:
                     self.data[key].append(element.text)
-        
-        result = Config()
-        result.data = self.data
-        result.children = []
-        for child in self.children:
-            result.children.append(child.execute(driver))
-        return result
+
+        if len(self.children) == 0:
+            yield {
+                self.name: self.data
+            }
+        else:
+            for child in self.children:
+                for data in child.execute(driver):
+                    data[self.name] = self.data
+                    yield data

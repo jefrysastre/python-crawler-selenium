@@ -9,6 +9,8 @@ from config import Config
 
 class Repeater(BaseNode):
     def __init__(self, selector, values = None, start = None, end=None, end_regex=None, sleep_seconds = 0,  **kwargs):
+        if 'name' not in kwargs:
+            kwargs['name'] = "repeater_value"
         super(Repeater, self).__init__(**kwargs)
         self.selector = selector
         self.sleep_seconds = sleep_seconds
@@ -45,8 +47,6 @@ class Repeater(BaseNode):
             else:
                 raise Exception("Error: Regex did not match anything.")
 
-        result = Config()
-        result.data = {}
         for value in self.values:
 
             if "{0}" in self.selector:
@@ -58,10 +58,9 @@ class Repeater(BaseNode):
                 WebDriverWait(driver, 60).until(element_present)
                 driver.find_element_by_xpath(self.selector).send_keys(value)
 
-            result.data[unicode(value)] = []
             for child in self.children:
-                result.data[unicode(value)].append(child.execute(driver))
-            
+                for data in child.execute(driver):
+                    data[self.name] = unicode(value)
+                    yield data
+
             driver.get(_current_url)
-        
-        return result

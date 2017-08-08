@@ -5,14 +5,15 @@ from config import Config
 
 class Root(BaseNode):
     def __init__(self, origin, **kwargs):
+        if 'name' not in kwargs:
+            kwargs['name'] = "origin"
         super(Root, self).__init__(**kwargs)
         self.origin = origin
 
     def execute(self, driver):
         driver.get(self.origin)
 
-        result = Config()
-        result.children = []
         for child in self.children:
-            result.children.append(child.execute(driver))
-        return result
+            for data in child.execute(driver):
+                data[self.name] = self.origin
+                yield data

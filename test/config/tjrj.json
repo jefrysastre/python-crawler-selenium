@@ -5,8 +5,10 @@
         "_type": "repeater",
         "selector" : "//*[@id=\"ContentPlaceHolder1_txtTextoPesq\"]",
         "values": ["apelação", "\"remessa necessária\" ou \"reexame necessário\""],
+        "name": "query",
         "children":[{
             "_type" : "form",
+            "name" : "initial_search_params",
             "fields" :{
                 "//*[@id=\"ContentPlaceHolder1_cmbAnoInicio\"]/option[@value=\"2017\"]": "*",
                 "//*[@id=\"ContentPlaceHolder1_cmbAnoFim\"]/option[@value=\"2017\"]" : "*",
@@ -17,6 +19,7 @@
             "children":[{
                 "_type": "repeater",
                 "selector" : "//*[@id=\"seletorPaginasTopo\"]/option[{0}]",
+                "name": "page_number",
                 "start": 1,
                 "end": 2,
                 "sleep_seconds" : 20,
@@ -25,6 +28,7 @@
                     "link": "//*[@id=\"placeholder\"]/span/table/tbody/tr[6]/td/table/tbody/tr[4]/td/b/a",
                     "children": [{
                         "_type": "data",
+                        "name": "process_data",
                         "fields": {
                             "classe": "//*[@id=\"conteudo\"]/span/table[3]/tbody/tr[1]/td[2]",
                             "num_processo": "//*[@id=\"conteudo\"]/span/table[1]/tbody/tr[4]/td/h2",
@@ -38,6 +42,7 @@
                         },
                         "children": [{
                             "_type" : "form",
+                            "name" : "character_list",
                             "fields" :{
                             },
                             "submit": ["//*[@id=\"conteudo\"]/span/table[3]/tbody/tr[11]/td[2]/a",
@@ -45,6 +50,7 @@
                             ],
                             "children": [{
                                 "_type": "data",
+                                "name": "character_data",
                                 "fields": {
                                     "personagens": "//*[@id=\"listaPersonagens\"]/table/tbody/tr"
                                 }

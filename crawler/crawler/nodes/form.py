@@ -11,6 +11,8 @@ from config import Config
 
 class Form(BaseNode):
     def __init__(self, submit, fields,  **kwargs):
+        if 'name' not in kwargs:
+            kwargs['name'] = "form_value"
         super(Form, self).__init__(**kwargs)
         self.fields = fields.__dict__
         self.submit = submit
@@ -36,14 +38,10 @@ class Form(BaseNode):
             except NoSuchElementException:
                 pass
         
-        result = Config()
-        result.values = self.fields.values()
-        result.children = []
-        
         if elem != None:
             elem.click()
-            
+
             for child in self.children:
-                result.children.append(child.execute(driver))
-        
-        return result
+                for data in child.execute(driver):
+                    data[self.name] = self.fields
+                    yield data
