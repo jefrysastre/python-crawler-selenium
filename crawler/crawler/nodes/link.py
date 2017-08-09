@@ -24,7 +24,9 @@ class Link(BaseNode):
         element_present = EC.presence_of_element_located((By.XPATH, self.link))
         WebDriverWait(driver, 60).until(element_present)
         links = [link.get_attribute("href") for link in driver.find_elements_by_xpath(self.link)]
-
+        
+        links.sort()
+        
         _count_link = len(links)
         while self._current_link < _count_link:
             driver.get(links[self._current_link])
