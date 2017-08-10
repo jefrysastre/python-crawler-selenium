@@ -40,11 +40,11 @@ class Form(BaseNode):
         
         if elem is not None:
             elem.click()
-
-            _count_current_index = len(self.children)
-            while self._current_index < _count_current_index:
-                for data in self.children[self._current_index].execute(driver):
-                    data[self.name] = self.fields
-                    yield data
-                self._current_index += 1
-            self._current_index = 0
+        
+        _count_current_index = len(self.children)
+        while self._current_index < _count_current_index:
+            for data in self.children[self._current_index].execute(driver):
+                data[self.name] = self.fields
+                yield data
+            self._current_index += 1
+        self._current_index = 0
