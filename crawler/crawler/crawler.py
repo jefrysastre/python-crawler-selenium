@@ -1,7 +1,6 @@
 from selenium import webdriver
 
-import nodes
-
+import crawler.nodes as nodes
 
 class Crawler:
     def __init__(self, config):

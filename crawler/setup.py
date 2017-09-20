@@ -9,6 +9,7 @@ setup(name='crawler',
       license='BSD',
       packages=['crawler'],
       install_requires=[
-          'selenium'
+          'selenium',
+          'jsonpickle'
       ],
       zip_safe=False)

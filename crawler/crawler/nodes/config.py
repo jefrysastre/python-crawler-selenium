@@ -10,7 +10,6 @@ class Config:
     def __setitem__(self, key, value):
         self.__dict__[key] = value
 
-
     def dump(self, path = None):
         jsonpickle.set_encoder_options('json', ensure_ascii=False)
         str_data = jsonpickle.encode(self, unpicklable=False).encode('utf-8')
@@ -34,7 +33,7 @@ class Config:
 
     @classmethod
     def __load(cls, obj):
-        if type(obj) in (int, float, bool, str, unicode):
+        if type(obj) in (int, float, bool, str):
             return obj
         if(isinstance(obj, list)):
             return [Config.__load(item) for item in obj]

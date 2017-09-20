@@ -2,8 +2,8 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 
-from base_node import BaseNode
-from config import Config
+from .base_node import BaseNode
+from .config import Config
 from selenium.common.exceptions import TimeoutException
 
 

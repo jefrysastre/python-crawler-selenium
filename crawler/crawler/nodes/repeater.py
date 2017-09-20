@@ -3,8 +3,8 @@ from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 import time
 
-from base_node import BaseNode
-from config import Config
+from .base_node import BaseNode
+from .config import Config
 
 
 class Repeater(BaseNode):
@@ -19,7 +19,7 @@ class Repeater(BaseNode):
         self._current_value = 0
 
 
-        if type(values) in [str, unicode]:
+        if type(values) in [str]:
             import cPickle as pickle
             with open(values,'rb') as file:
                 self.values = pickle.load(file)
@@ -27,7 +27,7 @@ class Repeater(BaseNode):
             self.values = values
         elif start and end and type(end) is int:
             self.values = range(start, end + 1)
-        elif not end or not start or type(end) not in [str, unicode] or not end_regex:
+        elif not end or not start or type(end) not in [str] or not end_regex:
             raise Exception("Error: Undefined values field.")
         else:
             pass
@@ -37,7 +37,7 @@ class Repeater(BaseNode):
         
         _current_url = driver.current_url
         
-        if self.start and self.end and self.end_regex and type(self.end) in [str, unicode]:
+        if self.start and self.end and self.end_regex and type(self.end) in [str]:
             import re
             element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(self.end)))
             WebDriverWait(driver, 60).until(element_present)
@@ -63,7 +63,7 @@ class Repeater(BaseNode):
             _count_current_index = len(self.children)
             while self._current_index < _count_current_index:
                 for data in self.children[self._current_index].execute(driver):
-                    data[self.name] = unicode(self.values[self._current_value])
+                    data[self.name] = str(self.values[self._current_value])
                     yield data
                 self._current_index += 1
 

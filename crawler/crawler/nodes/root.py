@@ -1,6 +1,6 @@
 
-from base_node import BaseNode
-from config import Config
+from .base_node import BaseNode
+from .config import Config
 
 
 class Root(BaseNode):

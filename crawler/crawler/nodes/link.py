@@ -4,8 +4,8 @@ from selenium.webdriver.common.by import By
 from copy import deepcopy
 import time
 
-from base_node import BaseNode
-from config import Config
+from .base_node import BaseNode
+from .config import Config
 
 
 class Link(BaseNode):

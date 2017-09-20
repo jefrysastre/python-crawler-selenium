@@ -1,2 +1,3 @@
-import nodes
-from crawler import  *
+import crawler.nodes as nodes
+from crawler.crawler import Crawler
+
