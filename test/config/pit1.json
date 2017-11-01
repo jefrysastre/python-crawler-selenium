@@ -1,0 +1,29 @@
+{
+    "_type" : "root",
+    "origin": "http://www4.tjrj.jus.br/ejuris/ConsultarJurisprudencia.aspx",
+    "children":[{
+        "_type": "repeater",
+        "name": "query_repeater",
+        "selector" : "//*[@id=\"ContentPlaceHolder1_txtTextoPesq\"]",
+        "values": ["empregada"],
+        "children":[{
+            "_type" : "form",
+            "name" : "search_form",
+            "fields" :{
+                "//*[@id=\"ContentPlaceHolder1_cmbAnoInicio\"]/option[@value=\"2016\"]": "*",
+                "//*[@id=\"ContentPlaceHolder1_cmbAnoFim\"]/option[@value=\"2016\"]" : "*",
+                "//*[@id=\"ContentPlaceHolder1_chkDecMon\"]" : "*"
+            },
+            "submit": ["//*[@id=\"ContentPlaceHolder1_btnPesquisar\"]"
+            ],
+            "children":[{
+                "_type": "data",
+                "name": "process_data",
+                "fields": {
+                    "num_processo": "//*[@id=\"placeholder\"]/span/table/tbody/tr/td/table/tbody/tr[4]/td/b/a",
+                    "integras_link": "//*[@id=\"placeholder\"]/span/table/tbody/tr/td/table/tbody/tr[13]/td/a"
+                }
+            }]
+        }]
+    }]
+}

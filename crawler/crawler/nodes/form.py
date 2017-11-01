@@ -23,6 +23,8 @@ class Form(BaseNode):
             WebDriverWait(driver, 60).until(element_present)
             elem = driver.find_element_by_xpath(key)
 
+            driver.execute_script("arguments[0].scrollIntoView();", elem)
+
             if value == "*":
                 elem.click()
             else:

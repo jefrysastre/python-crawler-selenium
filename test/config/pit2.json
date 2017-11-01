@@ -1,0 +1,42 @@
+{
+    "_type" : "root",
+    "origin": "http://www4.tjrj.jus.br/ejuris/ConsultarJurisprudencia.aspx",
+    "children":[{
+        "_type": "repeater",
+        "name": "query_repeater",
+        "selector" : "//*[@id=\"ContentPlaceHolder1_txtTextoPesq\"]",
+        "values": ["empregada"],
+        "children":[{
+            "_type" : "form",
+            "name" : "search_form",
+            "fields" :{
+                "//*[@id=\"ContentPlaceHolder1_cmbAnoInicio\"]/option[@value=\"2016\"]": "*",
+                "//*[@id=\"ContentPlaceHolder1_cmbAnoFim\"]/option[@value=\"2016\"]" : "*",
+                "//*[@id=\"ContentPlaceHolder1_chkDecMon\"]" : "*"
+            },
+            "submit": ["//*[@id=\"ContentPlaceHolder1_btnPesquisar\"]"
+            ],
+            "children":[{
+                "_type": "repeater",
+                "name": "page_repeater",
+                "selector" : "//*[@id=\"seletorPaginasTopo\"]/option[{0}]",
+                "start": 1,
+                "end": 3,
+                "sleep_seconds" : 8,
+                "children": [{
+                    "_type": "link",
+                    "sleep_seconds" : 3,
+                    "link": "//*[@id=\"placeholder\"]/span/table/tbody/tr[6]/td/table/tbody/tr[4]/td/b/a",
+                    "children": [{
+                        "_type": "data",
+                        "name": "process_data",
+                        "fields": {
+                            "num_processo": "//*[@id=\"conteudo\"]/span/table[1]/tbody/tr[4]/td/h2",
+                            "integras_link": "//*[@id=\"conteudo\"]/span/table[4]/tbody/tr/td/a"
+                        }
+                    }]
+                }]
+            }]
+        }]
+    }]
+}

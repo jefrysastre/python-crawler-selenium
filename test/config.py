@@ -34,7 +34,7 @@ class Config:
 
     @classmethod
     def __load(cls, obj):
-        if type(obj) in (int, float, bool, str, unicode):
+        if type(obj) in (int, float, bool, str):
             return obj
         if(isinstance(obj, list)):
             return [Config.__load(item) for item in obj]
