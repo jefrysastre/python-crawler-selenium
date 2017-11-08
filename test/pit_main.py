@@ -5,6 +5,7 @@ from selenium.webdriver.common.keys import Keys
 import pickle
 import jsonpickle
 from copy import deepcopy
+import csv
 
 from config import Config
 from crawler import Crawler
@@ -46,14 +47,13 @@ def save_data_to_file(data, filename):
 
 def write_lines_to_csv(filename, mode, my_list):
     file = open(filename, mode)
-    writer = csv.writer(file, encoding='utf-8', delimiter=";", lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
+    writer = csv.writer(file, delimiter=";", lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
     writer.writerows(my_list)
     file.close()
 
 
 def process_crawler_data(data_filename, out_filename):
-    # TODO: preencher o nome das colunas que serao extraidas
-    header = []
+    header = ["Número do processo", "URL da íntegra"]
     write_lines_to_csv(out_filename, 'w', [header])
     
     process_details_list = []
@@ -63,17 +63,25 @@ def process_crawler_data(data_filename, out_filename):
     for line in data_file:
         data_list = json.loads(line)
         
-        # TODO: processar a variavel 'data' com o objetivo de extrair
-        # os campos a serem escritos no CSV
         for data in data_list:
-            # TODO: preencher o nome dos campos que serao escritos
-            fields = []
-            process_details_list.append(fields)
+            process_data = data['process_data']
+            num_processo = process_data['num_processo'][0]
+            integra_list = process_data['integras_link']
             
-            if len(process_details_list) == csv_writing_interval:
-                write_lines_to_csv(out_filename, 'a', process_details_list)
+            num_processo_processed = num_processo.strip('Processo No: ')
+            if len(integra_list) > 0:
+                integra_mais_recente_dict = integra_list[0]
+            else:
+                integra_mais_recente_dict = {}
+            
+            for integra_detalhe, integra_url in integra_mais_recente_dict.items():
+                fields = [num_processo_processed, integra_url]
+                process_details_list.append(fields)
+            
+                if len(process_details_list) == csv_writing_interval:
+                    write_lines_to_csv(out_filename, 'a', process_details_list)
                 
-                process_details_list = []
+                    process_details_list = []
     
     if len(process_details_list) > 0:
         write_lines_to_csv(out_filename, 'a', process_details_list)
