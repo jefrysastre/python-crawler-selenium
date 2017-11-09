@@ -10,6 +10,7 @@ import csv
 from config import Config
 from crawler import Crawler
 
+#python3 pit_main.py generate_data config/pit1.json out_pit1.json
 
 def usage(script_filename):
     print("Usage: %s generate_data/process_data [parameters]\n" \
@@ -24,7 +25,7 @@ def usage(script_filename):
 def generate_crawler_data(config_filename, data_filename):
     config = Config.load(config_filename)
     
-    crawler = Crawler(config)
+    crawler = Crawler(config, daemon_mode= True)
     
     data_list = []
     for data in crawler.run():
