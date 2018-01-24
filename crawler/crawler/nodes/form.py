@@ -35,6 +35,9 @@ class Form(BaseNode):
         for i in range(len(self.submit)):
             try:
                 elem = driver.find_element_by_xpath(self.submit[i])
+                
+                driver.execute_script("arguments[0].scrollIntoView();", elem)
+                
                 break
             except NoSuchElementException:
                 pass
