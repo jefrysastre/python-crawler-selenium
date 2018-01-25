@@ -2,6 +2,7 @@ from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+import time
 
 from .base_node import BaseNode
 from .config import Config
@@ -17,6 +18,8 @@ class Form(BaseNode):
         self.submit = submit
 
     def execute(self, driver):
+        time.sleep(self.sleep_seconds)
+        
         for key, value in self.fields.items():
 
             element_present = EC.presence_of_element_located((By.XPATH, key))

@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+import time
 
 from .base_node import BaseNode
 from .config import Config
@@ -16,6 +17,8 @@ class Data(BaseNode):
         self.data = {}
 
     def execute(self, driver):
+        time.sleep(self.sleep_seconds)
+        
         for key, value in self.fields.items():
             self.data[key] = []
             
@@ -35,6 +38,10 @@ class Data(BaseNode):
                     tds = [td.text for td in element.find_elements_by_tag_name('td')]
                     
                     self.data[key].append(tds)
+                elif element.tag_name == "input":
+                    text = element.get_attribute("value")
+                    
+                    self.data[key].append(text)
                 else:
                     self.data[key].append(element.text)
 
