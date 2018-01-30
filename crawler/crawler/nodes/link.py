@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 from copy import deepcopy
 import time
 
@@ -21,8 +22,12 @@ class Link(BaseNode):
 
         _current_url = driver.current_url
 
-        element_present = EC.presence_of_element_located((By.XPATH, self.link))
-        WebDriverWait(driver, 60).until(element_present)
+        try:
+            element_present = EC.presence_of_element_located((By.XPATH, self.link))
+            WebDriverWait(driver, 20).until(element_present)
+        except TimeoutException:
+            return
+        
         links = [link.get_attribute("href") for link in driver.find_elements_by_xpath(self.link)]
         
         links.sort()
