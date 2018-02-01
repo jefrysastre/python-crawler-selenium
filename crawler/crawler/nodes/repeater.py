@@ -1,6 +1,7 @@
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from selenium.webdriver.common.by import By
+from selenium.common.exceptions import TimeoutException
 import time
 
 from .base_node import BaseNode
@@ -37,28 +38,37 @@ class Repeater(BaseNode):
         
         _current_url = driver.current_url
         
+        has_just_one_result_page = False
+        
         if self.start and self.end and self.end_regex and type(self.end) in [str]:
             import re
-            element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(self.end)))
-            WebDriverWait(driver, 60).until(element_present)
-            elem = driver.find_element_by_xpath(self.end)
-            exps = re.findall(self.end_regex, elem.text)
-            if len(exps) > 0:
-                self.values = range(self.start, int(exps[-1]))
-            else:
-                raise Exception("Error: Regex did not match anything.")
+            
+            try:
+                element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(self.end)))
+                WebDriverWait(driver, 20).until(element_present)
+            except TimeoutException:
+                has_just_one_result_page = True
+                self.values = [1]
+            
+            if not has_just_one_result_page:
+                elem = driver.find_element_by_xpath(self.end)
+                exps = re.findall(self.end_regex, elem.text)
+                if len(exps) > 0:
+                    self.values = range(self.start, int(exps[-1]) + 1)
+                else:
+                    raise Exception("Error: Regex did not match anything.")
 
         _count_current_value = len(self.values)
         while self._current_value < _count_current_value:
-
-            if "{0}" in self.selector:
-                element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(self.values[self._current_value])))
-                WebDriverWait(driver, 60).until(element_present)
-                driver.find_element_by_xpath(self.selector.format(self.values[self._current_value])).click()
-            else:
-                element_present = EC.presence_of_element_located((By.XPATH, self.selector))
-                WebDriverWait(driver, 60).until(element_present)
-                driver.find_element_by_xpath(self.selector).send_keys(self.values[self._current_value])
+            if not has_just_one_result_page:
+                if "{0}" in self.selector:
+                    element_present = EC.presence_of_element_located((By.XPATH, self.selector.format(self.values[self._current_value])))
+                    WebDriverWait(driver, 60).until(element_present)
+                    driver.find_element_by_xpath(self.selector.format(self.values[self._current_value])).click()
+                else:
+                    element_present = EC.presence_of_element_located((By.XPATH, self.selector))
+                    WebDriverWait(driver, 60).until(element_present)
+                    driver.find_element_by_xpath(self.selector).send_keys(self.values[self._current_value])
 
             _count_current_index = len(self.children)
             while self._current_index < _count_current_index:
