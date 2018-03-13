@@ -1,0 +1,59 @@
+{
+    "_type" : "root",
+    "origin": "https://scholar.google.com/",
+    "children":[{
+    	"_type" : "form",
+        "name" : "initial_search_params",
+        "fields" :{
+            "//*[@id=\"gs_hdr_tsi\"]": "+explor* chart interface interaction -cell -dna"
+        },
+        "submit": ["//*[@id=\"gs_hdr_tsb\"]"],
+        "children":[{
+    		"_type" : "form",
+            "name" : "exclude_patents_and_citations",
+            "fields" :{
+                "//*[@id=\"gs_bdy_sb_in\"]/ul[2]/li[1]/a/span/span[2]": "*",
+                "//*[@id=\"gs_bdy_sb_in\"]/ul[2]/li[2]/a/span/span[2]": "*"
+            },
+            "submit": [""],
+            "children":[{
+                "_type": "repeater",
+                "selector" : "//*[@id=\"gs_nm\"]/button[2]/span/span[1]",
+                "name": "page_number",
+                "start": 1,
+                "end": 100000,
+                "sleep_seconds" : 2,
+				"children": [
+					{
+                    	"_type" : "form",
+                    	"name" : "reference_list",
+                    	"fields" :{
+                    	},
+                    	"submit": ["a[class=\"gs_or_cit gs_nph\"]"],
+                    	"children": [{
+                    			"_type": "data",
+                    			"name": "reference_data",
+                        		"fields": {
+                           			"reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                        		}
+                    		}]
+                    },
+                    {
+                    	"_type": "data",
+                    	"name": "url_data",
+                    	"fields": {
+                        	"url": "//*[@id=\"gs_res_ccl_mid\"]/div/div/div/div/a[1]"
+                        }
+                    },
+                    {
+                    	"_type": "data",
+                    	"name": "citations_data",
+                    	"fields": {
+                        	"citations": "//*[@id=\"gs_res_ccl_mid\"]/div/div/div[3]/a[3]"
+                    	}
+                    }]
+            	}]
+        	}]
+        }]
+}
+
