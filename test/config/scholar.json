@@ -1,59 +1,426 @@
 {
     "_type" : "root",
-    "origin": "https://scholar.google.com/",
+    "origin": "https://scholar.google.com.br/scholar?start=100&q=%2Bexplor*+chart+interface+interaction+-cell+-dna&hl=pt-BR&as_sdt=1,5&as_vis=1",
     "children":[{
-    	"_type" : "form",
-        "name" : "initial_search_params",
-        "fields" :{
-            "//*[@id=\"gs_hdr_tsi\"]": "+explor* chart interface interaction -cell -dna"
-        },
-        "submit": ["//*[@id=\"gs_hdr_tsb\"]"],
-        "children":[{
-    		"_type" : "form",
-            "name" : "exclude_patents_and_citations",
-            "fields" :{
-                "//*[@id=\"gs_bdy_sb_in\"]/ul[2]/li[1]/a/span/span[2]": "*",
-                "//*[@id=\"gs_bdy_sb_in\"]/ul[2]/li[2]/a/span/span[2]": "*"
+        "_type": "repeater",
+        "selector" : "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a",
+        "name": "page_number",
+        "start": 1,
+        "end": 1000,
+        "reset_initial_state": false,
+        "clickable": true,
+        "sleep_seconds" : 5,
+        "children": [
+        {
+            "_type": "data",
+            "name": "paper_pos1_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[1]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[1]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[1]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
             },
-            "submit": [""],
-            "children":[{
-                "_type": "repeater",
-                "selector" : "//*[@id=\"gs_nm\"]/button[2]/span/span[1]",
-                "name": "page_number",
-                "start": 1,
-                "end": 100000,
-                "sleep_seconds" : 2,
-				"children": [
-					{
-                    	"_type" : "form",
-                    	"name" : "reference_list",
-                    	"fields" :{
-                    	},
-                    	"submit": ["a[class=\"gs_or_cit gs_nph\"]"],
-                    	"children": [{
-                    			"_type": "data",
-                    			"name": "reference_data",
-                        		"fields": {
-                           			"reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
-                        		}
-                    		}]
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[1]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
-                    {
-                    	"_type": "data",
-                    	"name": "url_data",
-                    	"fields": {
-                        	"url": "//*[@id=\"gs_res_ccl_mid\"]/div/div/div/div/a[1]"
-                        }
-                    },
-                    {
-                    	"_type": "data",
-                    	"name": "citations_data",
-                    	"fields": {
-                        	"citations": "//*[@id=\"gs_res_ccl_mid\"]/div/div/div[3]/a[3]"
-                    	}
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
                     }]
-            	}]
-        	}]
-        }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos2_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[2]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[2]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[2]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[2]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos3_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[3]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[3]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[3]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[3]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos4_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[4]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[4]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[4]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[4]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos5_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[5]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[5]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[5]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[5]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos6_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[6]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[6]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[6]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[6]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos7_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[7]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[7]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[7]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[7]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos8_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[8]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[8]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[8]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[8]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos9_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[9]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[9]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[9]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[9]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        },
+        {
+            "_type": "data",
+            "name": "paper_pos10_data",
+            "sleep_seconds" : 1,
+            "fields": {
+                "name": "//*[@id=\"gs_res_ccl_mid\"]/div[10]/div/h3/a",
+                "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[10]/div/div[3]/a[3]",
+                "url_to_document": "//*[@id=\"gs_res_ccl_mid\"]/div[10]/div/div/div/a[1]",
+                "next_page": "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a"
+            },
+            "children": [{
+                "_type" : "form",
+                "name" : "reference_list",
+                "sleep_seconds" : 1,
+                "fields" :{
+                },
+                "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[10]/div/div[3]/a[2]"],
+                "children": [{
+                    "_type": "data",
+                    "name": "reference_data",
+                    "sleep_seconds" : 1,
+                    "fields": {
+                        "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
+                    },
+                    "children": [{
+                        "_type" : "form",
+                        "name" : "exit_button",
+                        "sleep_seconds" : 1,
+                        "fields" :{
+                        },
+                        "submit": ["//*[@id=\"gs_cit-x\"]"],
+                        "children": [{
+                            "_type": "data",
+                            "name": "no_data",
+                            "fields" :{
+                            }
+                        }]
+                    }]
+                }]
+            }]
+        }
+        ]
+    }]
 }
-
