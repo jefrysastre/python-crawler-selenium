@@ -1,20 +1,19 @@
 {
     "_type" : "root",
-    "origin": "https://scholar.google.com.br/scholar?start=100&q=%2Bexplor*+chart+interface+interaction+-cell+-dna&hl=pt-BR&as_sdt=1,5&as_vis=1",
+    "origin": "https://scholar.google.com.br/scholar?start=0&q=%2Bexplor*+chart+interface+interaction+-cell+-dna&hl=pt-BR&as_sdt=1,5&as_vis=1",
     "children":[{
         "_type": "repeater",
         "selector" : "//*[@id=\"gs_n\"]/center/table/tbody/tr/td[12]/a",
         "name": "page_number",
         "start": 1,
-        "end": 1000,
+        "end": 310,
+        "sleep_seconds" : 2,
         "reset_initial_state": false,
         "clickable": true,
-        "sleep_seconds" : 5,
         "children": [
         {
             "_type": "data",
             "name": "paper_pos1_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[1]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[1]/div/div[3]/a[3]",
@@ -24,14 +23,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[1]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -55,7 +52,6 @@
         {
             "_type": "data",
             "name": "paper_pos2_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[2]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[2]/div/div[3]/a[3]",
@@ -65,14 +61,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[2]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -96,7 +90,6 @@
         {
             "_type": "data",
             "name": "paper_pos3_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[3]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[3]/div/div[3]/a[3]",
@@ -106,14 +99,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[3]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -137,7 +128,6 @@
         {
             "_type": "data",
             "name": "paper_pos4_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[4]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[4]/div/div[3]/a[3]",
@@ -147,14 +137,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[4]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -178,7 +166,6 @@
         {
             "_type": "data",
             "name": "paper_pos5_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[5]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[5]/div/div[3]/a[3]",
@@ -188,14 +175,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[5]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -219,7 +204,6 @@
         {
             "_type": "data",
             "name": "paper_pos6_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[6]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[6]/div/div[3]/a[3]",
@@ -229,14 +213,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[6]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -260,7 +242,6 @@
         {
             "_type": "data",
             "name": "paper_pos7_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[7]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[7]/div/div[3]/a[3]",
@@ -270,14 +251,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[7]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -301,7 +280,6 @@
         {
             "_type": "data",
             "name": "paper_pos8_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[8]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[8]/div/div[3]/a[3]",
@@ -311,14 +289,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[8]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -342,7 +318,6 @@
         {
             "_type": "data",
             "name": "paper_pos9_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[9]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[9]/div/div[3]/a[3]",
@@ -352,14 +327,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[9]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
@@ -383,7 +356,6 @@
         {
             "_type": "data",
             "name": "paper_pos10_data",
-            "sleep_seconds" : 1,
             "fields": {
                 "name": "//*[@id=\"gs_res_ccl_mid\"]/div[10]/div/h3/a",
                 "cited_by": "//*[@id=\"gs_res_ccl_mid\"]/div[10]/div/div[3]/a[3]",
@@ -393,14 +365,12 @@
             "children": [{
                 "_type" : "form",
                 "name" : "reference_list",
-                "sleep_seconds" : 1,
                 "fields" :{
                 },
                 "submit": ["//*[@id=\"gs_res_ccl_mid\"]/div[10]/div/div[3]/a[2]"],
                 "children": [{
                     "_type": "data",
                     "name": "reference_data",
-                    "sleep_seconds" : 1,
                     "fields": {
                         "reference_items": "//*[@id=\"gs_citt\"]/table/tbody/tr"
                     },
