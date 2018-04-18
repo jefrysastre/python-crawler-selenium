@@ -8,7 +8,7 @@ from config import Config
 from crawler import Crawler
 
 # Chamar o script com a linha abaixo.
-# python3 scholar_main.py generate_data config/scholar.json out_scholar.json
+# stdbuf -o0 /usr/bin/python3 scholar_main.py generate_data config/scholar.json out/scholar.json | tee /dev/stderr >> out/scholar.log
 
 
 def usage(script_filename):
