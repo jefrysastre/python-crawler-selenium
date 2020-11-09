@@ -4,6 +4,10 @@ from selenium import webdriver
 from selenium.webdriver.common.keys import Keys
 from datetime import datetime
 import unicodedata
+import jsonpickle
+import codecs
+from copy import deepcopy
+import pickle
 
 from config import Config
 from crawler import Crawler
@@ -16,28 +20,80 @@ def strip_accents(text):
     text = text.decode("utf-8")
     return str(text)
 
+
 def usage(script_filename):
     print("Usage: %s generate_data/process_data [parameters]\n" \
-          "       For 'generate_data', parameters = config_filename data_filename\n" \
-          "       For 'process_data', parameters = data_filename\n" \
+          "       For 'generate_data', parameters = config_filename data_filename state_filename\n" \
+          "       For 'process_data', parameters = data_filename out_filename\n" \
           % script_filename)
     exit(1)
 
 
-def generate_crawler_data(config_filename, data_filename):
+def load_crawler_state(crawler, state_filename):
+    if os.path.isfile(state_filename):
+        with open(state_filename, "rb") as state_file:
+            state = pickle.load(state_file)
+
+        crawler.set_state(state)
+
+
+def generate_crawler_data(config_filename, data_filename, state_filename):
     config = Config.load(config_filename)
-     
+
     crawler = Crawler(config)
-     
-    data = crawler.run()
-     
-    data.dump(data_filename)
+
+    # If state file exists, loads it in order to resume crawling
+    load_crawler_state(crawler, state_filename)
+
+    data_list = []
+    data_saving_interval = 10
+    has_finished = False
+    last_saved_page = None
+
+    while not has_finished:
+        try:
+            for i, data in enumerate(crawler.run()):
+                if len(data_list) == data_saving_interval:
+                    save_data_to_file(data_list, data_filename)
+
+                    state = crawler.get_state()
+                    with open(state_filename, "wb") as state_file:
+                        pickle.dump(state, state_file)
+
+                    data_list = []
+
+                data_list.append(deepcopy(data))
+
+            has_finished = True
+        except Exception as e:
+            print("Error crawling website. Error: \"%s\"" % (e))
+
+            if data is not None:
+                print(data)
+
+            load_crawler_state(crawler, state_filename)
+            data_list = []
+
+    if len(data_list) > 0:
+        save_data_to_file(data_list, data_filename)
+
+    # Deletes the state file
+    if os.path.isfile(state_filename):
+        os.remove(state_filename)
+
+
+def save_data_to_file(data, filename):
+    jsonpickle.set_encoder_options('json', ensure_ascii=False)
+    str_data = jsonpickle.encode(data, unpicklable=False)
+
+    with codecs.open(filename, "a", encoding="utf-8") as file:
+        file.write(str_data + "\n")
 
 
 def process_crawler_data(data_filename):
     with open(data_filename, 'r') as data_file:
         data = json.load(data_file)
-    
+
     query_list = data['children'][0]['data']
     for query in query_list.keys():
         query_data = query_list[query][0]['children'][0]['data']
@@ -188,8 +244,9 @@ if __name__ == "__main__":
     if sys.argv[1] == "generate_data":
         config_filename = sys.argv[2]
         data_filename = sys.argv[3]
-        
-        generate_crawler_data(config_filename, data_filename)
+        state_filename = sys.argv[4]
+
+        generate_crawler_data(config_filename, data_filename, state_filename)
     elif sys.argv[1] == "process_data":
         data_filename = sys.argv[2]
         

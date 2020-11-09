@@ -25,7 +25,7 @@ def usage(script_filename):
 def generate_crawler_data(config_filename, data_filename):
     config = Config.load(config_filename)
     
-    crawler = Crawler(config, daemon_mode= True)
+    crawler = Crawler(config, daemon_mode=False)
     
     data_list = []
     for data in crawler.run():
