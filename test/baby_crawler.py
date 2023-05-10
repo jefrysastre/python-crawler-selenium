@@ -8,6 +8,7 @@ import jsonpickle
 import codecs
 from copy import deepcopy
 import pickle
+import csv
 
 from config import Config
 from crawler import Crawler
@@ -90,41 +91,68 @@ def save_data_to_file(data, filename):
         file.write(str_data + "\n")
 
 
-def process_crawler_data(data_filename):
-    with open(data_filename, 'r') as data_file:
-        data = json.load(data_file)
+def write_lines_to_csv(filename, mode, my_list):
+    with open(filename, mode) as file:
+        writer = csv.writer(file, delimiter=";", lineterminator="\n", quoting=csv.QUOTE_MINIMAL)
+        writer.writerows(my_list)
 
-    query_list = data['children'][0]['data']
-    for query in query_list.keys():
-        query_data = query_list[query][0]['children'][0]['data']
-        
-        for page in query_data.keys():
-            page_data = query_data[page][0]['data']
-            
-            for process_url in page_data.keys():
-                process_root = page_data[process_url][0]
-                
-                personagem_list = process_root['children'][0]['children'][0]['data']['personagens']
-                process_data = process_root['data']
-                
-                classe = process_data['classe'][0].encode('utf-8')
-                integras_info = process_data['integras_info'][0]
-                integras_links = process_data['integras_links']
-                num_processo_field = process_data['num_processo'][0].encode('utf-8')
-                orgao_julgador = process_data['orgao_julgador'][0].encode('utf-8')
-                polo_ativo = process_data['polo_ativo'][0].encode('utf-8')
-                polo_passivo = process_data['polo_passivo'][0].encode('utf-8')
-                relator = process_data['relator'][0].encode('utf-8')
-                
-                integra_list = compose_integra_data(integras_info, integras_links)
-                advogado_list = get_lawyers(personagem_list)
+
+def process_crawler_data(data_filename, out_filename):
+    header = [u'Classe', u'Número do processo', u'Órgão julgador', u'Relator',
+              u'Polo ativo (1o parecer)', u'Polo passivo (2o parecer)', u'URL do processo']
+
+    write_lines_to_csv(out_filename, 'w', [header])
+
+    process_details_list = []
+    csv_writing_interval = 10
+
+    with open(data_filename, 'r') as data_file:
+        for line in data_file:
+            data_list = json.loads(line)
+
+            for data in data_list:
+                process_url = data['link_value']
+                process_data = data['process_data']
+
+                if len(process_data['classe']) > 0:
+                    classe = process_data['classe'][0]
+                else:
+                    classe = ""
+
+                num_processo_field = process_data['num_processo'][0]
+
+                if len(process_data['orgao_julgador']) > 0:
+                    orgao_julgador = process_data['orgao_julgador'][0]
+                else:
+                    orgao_julgador = ""
+
+                if len(process_data['relator']) > 0:
+                    relator = process_data['relator'][0]
+                else:
+                    relator = ""
+
+                if len(process_data['polo_ativo']) > 0:
+                    polo_ativo = process_data['polo_ativo'][0]
+                else:
+                    polo_ativo = ""
+
+                if len(process_data['polo_passivo']) > 0:
+                    polo_passivo = process_data['polo_passivo'][0]
+                else:
+                    polo_passivo = ""
+
                 num_processo = get_process_number(num_processo_field)
-                
-                right_integra = select_right_document(integra_list)
-                integra_date = right_integra['date']
-                pdf_result = process_pdf(right_integra['link'])
-                
-                print("Teste")
+
+                process_details_list.append([classe, num_processo, orgao_julgador, relator,
+                                             polo_ativo, polo_passivo, process_url])
+
+                if len(process_details_list) == csv_writing_interval:
+                    write_lines_to_csv(out_filename, 'a', process_details_list)
+
+                    process_details_list = []
+
+            if len(process_details_list) > 0:
+                write_lines_to_csv(out_filename, 'a', process_details_list)
 
 
 def get_process_number(process_number_field):
@@ -137,104 +165,6 @@ def get_process_number(process_number_field):
     return process_number
 
 
-def get_lawyers(character_list):
-    lawyer_character = "ADVOGADO"
-    lawyer_list = []
-    
-    for character_and_name in character_list:
-        if len(character_and_name) != 2:
-            continue
-        
-        character = character_and_name[0]
-        name = character_and_name[1]
-        
-        if character.find(lawyer_character) > -1:
-            lawyer_list.append(name)
-    
-    return lawyer_list
-
-
-def compose_integra_data(integras_info, integras_links):
-    integras_info_original = integras_info
-    integra_data = []
-    
-    for integra_link in integras_links:
-        for integra, integra_link in integra_link.items():
-        
-            integra_escaped = integra.replace('(', '\(').replace(')', '\)')
-            pattern_integra = '\n%s.*?(\d\d/\d\d/\d\d\d\d)' % integra_escaped
-            
-            integra_date = re.findall(pattern_integra, integras_info)
-            
-            match_idx_list = [(m.start(0), m.end(0)) for m in re.finditer(pattern_integra, integras_info)]
-            end_match_idx = match_idx_list[0][1]
-            
-            assert len(integra_date) > 0
-            
-            integra_data.append({'descr': integra,
-                                  'link': integra_link,
-                                  'date': integra_date[0]
-                                 })
-            
-            integras_info = integras_info[end_match_idx:]
-        
-    return integra_data
-
-
-# DOC_TYPES_SET = set()
-
-agreement_name_list = ['inteiro teor n. 1 - acordao',
-                       'acordao',
-                       'inteiro teor n. 1 - acordao  com resolucao do merito',
-                       'integra do(a) acordao'
-                       ]
-
-trial_name_list = ['julg. monocratico  com resolucao do merito',
-                   'julgamento monocratico  com resolucao do merito',
-                   'decisao monocratica',
-                   ]
-
-
-def select_right_document(docs):
-    agreement_instance = None
-    chosen_agreement_doc_type = ""
-    chosen_agreement_doc_date = datetime.strptime('01/01/2020', '%d/%m/%Y')
-    
-    trial_instance = None
-    chosen_trial_doc_type = ""
-    chosen_trial_doc_date = datetime.strptime('01/01/2020', '%d/%m/%Y')
-    
-    for doc in docs:
-#         global DOC_TYPES_SET
-#         DOC_TYPES_SET.add(doc['descr'])
-        
-        doc_type = strip_accents(doc['descr']).lower()
-        doc_date = datetime.strptime(doc['date'], '%d/%m/%Y')
-        
-        if doc_type in agreement_name_list and doc_date < chosen_agreement_doc_date:
-            chosen_agreement_doc_type = doc_type
-            chosen_agreement_doc_date = doc_date
-             
-            agreement_instance = doc
-        
-        if doc_type in trial_name_list and doc_date < chosen_trial_doc_date:
-            chosen_trial_doc_type = doc_type
-            chosen_trial_doc_date = doc_date
-             
-            trial_instance = doc
-    
-    selected_doc_instance = None
-    
-    if chosen_agreement_doc_type != "":
-        selected_doc_instance = agreement_instance
-    elif chosen_trial_doc_type != "":
-        selected_doc_instance = trial_instance
-    
-    return selected_doc_instance
-
-
-def process_pdf(url_pdf):
-    return None
 
 
 if __name__ == "__main__":
@@ -249,7 +179,8 @@ if __name__ == "__main__":
         generate_crawler_data(config_filename, data_filename, state_filename)
     elif sys.argv[1] == "process_data":
         data_filename = sys.argv[2]
-        
-        process_crawler_data(data_filename)
+        out_filename = sys.argv[3]
+
+        process_crawler_data(data_filename, out_filename)
     else:
         usage(sys.argv[0])

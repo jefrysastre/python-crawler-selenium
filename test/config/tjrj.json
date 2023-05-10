@@ -26,7 +26,7 @@
                 "children": [{
                     "_type": "link",
                     "sleep_seconds" : 3,
-                    "link": "//*[@id=\"placeholder\"]/span/table/tbody/tr[6]/td/table/tbody/tr[4]/td/b/a",
+                    "link": "//*[@id=\"placeholder\"]/span/table/tbody/tr/td/table/tbody/tr/td/b/a",
                     "children": [{
                         "_type": "data",
                         "name": "process_data",
