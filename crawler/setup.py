@@ -6,7 +6,7 @@ setup(name='crawler',
       url='None',
       author='dslab',
       author_email='dslab-ideias@googlegroups.com',
-      license='BSD',
+      license='MIT',
       packages=['crawler'],
       install_requires=[
           'selenium',
