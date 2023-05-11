@@ -2,14 +2,14 @@ from setuptools import setup
 
 setup(name='crawler',
       version='0.1',
-      description='Crawls the web',
+      description='Python crawler based on Selenium',
       url='None',
-      author='dslab',
-      author_email='dslab-ideias@googlegroups.com',
+      author='Jefry Sastre Perez',
+      author_email='jefry.sastre@gmail.com',
       license='MIT',
       packages=['crawler'],
       install_requires=[
-          'selenium',
+          'selenium==3.12.0',
           'jsonpickle'
       ],
       zip_safe=False)
